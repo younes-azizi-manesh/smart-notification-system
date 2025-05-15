@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendNotificationJob;
 use App\Repositories\Contracts\NotificationRepositoryInterface;
 
 class NotificationService
@@ -12,13 +13,16 @@ class NotificationService
 
     public function sendNotification(array $data)
     {
-        return $this->notificationRepo->create([
+        $notification = $this->notificationRepo->create([
             'user_id' => $data['user_id'],
             'title' => $data['title'],
             'message' => $data['message'],
             'notification_type_id' => $data['notification_type_id'],
             'status' => 'pending',
         ]);
+
+        SendNotificationJob::dispatch($notification);
+        return $notification;
     }
 
     public function getUserNotifications(int $userId)
