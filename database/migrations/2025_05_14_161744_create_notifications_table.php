@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('notification_type_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('message');
-            $table->enum('status', ['pending', 'sent', 'failed'])->default('pending');
+            $table->enum('status', ['pending', 'sent', 'failed', 'expired'])->default('pending');
             $table->timestamp('sent_at')->nullable();
             $table->timestamps();
         });
