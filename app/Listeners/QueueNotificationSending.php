@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\NotificationCreated;
 use App\Jobs\SendNotificationJob;
+use App\Jobs\SendNotificationSMSJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -22,6 +23,7 @@ class QueueNotificationSending implements ShouldQueue
      */
     public function handle(NotificationCreated $event): void
     {
-        SendNotificationJob::dispatch($event->notification);
+        // SendNotificationJob::dispatch($event->notification);
+        SendNotificationSMSJob::dispatch($event->notification);
     }
 }
