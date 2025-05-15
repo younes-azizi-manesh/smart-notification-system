@@ -6,6 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/config/sms.php
 .env
 .env.backup
 .env.production
