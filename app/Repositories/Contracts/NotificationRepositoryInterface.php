@@ -15,4 +15,6 @@ interface NotificationRepositoryInterface
     public function delete($id);
 
     public function findByUser($userId);
+
+    public function expireOldPendingNotifications(\DateTimeInterface $before): int;
 }

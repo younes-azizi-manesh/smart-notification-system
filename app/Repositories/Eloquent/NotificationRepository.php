@@ -38,4 +38,11 @@ class NotificationRepository implements NotificationRepositoryInterface
     {
         return Notification::where('user_id', $userId)->get();
     }
+
+    public function expireOldPendingNotifications(\DateTimeInterface $before): int
+    {
+        return Notification::where('status', 'pending')
+            ->where('created_at', '<', $before)
+            ->update(['status' => 'expired']);
+    }
 }
