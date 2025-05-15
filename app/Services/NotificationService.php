@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Jobs\SendNotificationJob;
+use App\Events\NotificationCreated;
 use App\Repositories\Contracts\NotificationRepositoryInterface;
 
 class NotificationService
@@ -21,7 +21,7 @@ class NotificationService
             'status' => 'pending',
         ]);
 
-        SendNotificationJob::dispatch($notification);
+        event(new NotificationCreated($notification));
         return $notification;
     }
 

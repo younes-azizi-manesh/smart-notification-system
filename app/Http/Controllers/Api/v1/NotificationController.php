@@ -20,6 +20,6 @@ class NotificationController extends Controller
     {
         $data = $request->validated();
         $notification = $this->notificationService->sendNotification($data);
-        Response::jsonResponse($notification, 'success', 201);
+        return Response::jsonResponse($notification, 'success', 201);
     }
 }
