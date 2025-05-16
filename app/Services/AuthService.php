@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\SendOtp;
 use App\Models\User;
 use App\Repositories\Contracts\OtpRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
@@ -12,7 +13,7 @@ class AuthService
 {
     public function __construct(
         public UserRepositoryInterface $userRepository,
-        public MelipayamakService $melipayamakService,
+        // public MelipayamakService $melipayamakService,
         public OtpRepositoryInterface $otpRepository
     )
     {}
@@ -23,7 +24,7 @@ class AuthService
         $user = $this->userRepository->findOrCreateByMobile($check['login_id']);
         $otp = $this->makeOtp($user, $check);
 
-        $this->melipayamakService->sendSMS([$otp['otp_code']], $user->mobile, 314163);
+        event(new SendOtp([$otp['otp_code']], $user->mobile, 314163));
         return $otp['token'];
     }
 
