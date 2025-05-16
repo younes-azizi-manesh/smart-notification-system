@@ -13,7 +13,6 @@ class AuthService
 {
     public function __construct(
         public UserRepositoryInterface $userRepository,
-        // public MelipayamakService $melipayamakService,
         public OtpRepositoryInterface $otpRepository
     )
     {}

@@ -29,7 +29,7 @@ class SendNotificationSMSJob implements ShouldQueue
             $this->notification->user->mobile,
             314163
         );
-        $this->notification->update(['status' => 'failed']);
+        $this->notification->update(['status' => 'sent']);
     }
 
     public function failed(\Throwable $exception)
