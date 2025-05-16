@@ -28,7 +28,7 @@ class MelipayamakService
         return $this;
     }
 
-    public function send(): void
+    private function send(): void
     {
         try {
             $api = new MelipayamakApi(config('sms.username'), config('sms.password'));
