@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Notification;
 use App\Services\MelipayamakService;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,12 +22,23 @@ class SendNotificationSMSJob implements ShouldQueue
         public Notification $notification
     ) {}
 
-    public function handle(MelipayamakService $sms): void
+    public function handle(MelipayamakService $sms)
     {
         $sms->sendSMS(
             [$this->notification->message],
             $this->notification->user->mobile,
             314163
         );
+        $this->notification->update(['status' => 'failed']);
+    }
+
+    public function failed(\Throwable $exception)
+    {
+        $this->notification->update(['status' => 'failed']);
+
+        logger()->error('Notification failed after retries', [
+            'id' => $this->notification->id,
+            'error' => $exception->getMessage(),
+        ]);
     }
 }

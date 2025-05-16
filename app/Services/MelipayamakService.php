@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use Exception;
 use Melipayamak\MelipayamakApi;
 
 class MelipayamakService
@@ -34,6 +35,7 @@ class MelipayamakService
             $api->sms('soap')->sendByBaseNumber($this->text, $this->to, $this->bodyId);
         } catch (\Exception $e) {
             logger()->error("SMS send failed: " . $e->getMessage());
+            throw $e;
         }
     }
 
