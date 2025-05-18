@@ -11,4 +11,8 @@ Route::middleware('guest:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->withoutMiddleware('guest:sanctum');
 });
 
-Route::post('/notifications/send', [NotificationController::class, 'send']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/notifications/send', [NotificationController::class, 'send']);
+    Route::post('/notifications/scheduled-notification', [NotificationController::class, 'scheduledNotification']);
+    Route::post('/notifications/get', [NotificationController::class, 'getNotifications']);
+});
