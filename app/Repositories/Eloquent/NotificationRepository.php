@@ -7,41 +7,43 @@ use App\Repositories\Contracts\NotificationRepositoryInterface;
 
 class NotificationRepository implements NotificationRepositoryInterface
 {
+    public function __construct(protected Notification $notification)
+    {}
     public function all()
     {
-        return Notification::all();
+        return $this->notification->all();
     }
 
     public function find($id)
     {
-        return Notification::find($id);
+        return $this->notification->find($id);
     }
 
     public function create(array $data)
     {
-        return Notification::create($data);
+        return $this->notification->create($data);
     }
 
     public function update($id, array $data)
     {
-        $notification = Notification::findOrFail($id);
+        $notification = $this->notification->findOrFail($id);
         $notification->update($data);
         return $notification;
     }
 
     public function delete($id)
     {
-        return Notification::destroy($id);
+        return $this->notification->destroy($id);
     }
 
     public function findByUser($userId)
     {
-        return Notification::where('user_id', $userId)->get();
+        return $this->notification->where('user_id', $userId)->get();
     }
 
     public function expireOldPendingNotifications(\DateTimeInterface $before): int
     {
-        return Notification::where('status', 'pending')
+        return $this->notification->where('status', 'pending')
             ->where('created_at', '<', $before)
             ->update(['status' => 'expired']);
     }
